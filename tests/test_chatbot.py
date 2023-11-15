@@ -31,5 +31,29 @@ class ChatbotTests(unittest.TestCase):
                 get_account()
             # Assert
             self.assertEqual(str(context.exception), "Account number entered does not exist.")
+    
+    def test_get_amount_valid_amount(self):
+        # Act
+        with patch("builtins.input", side_effect=["500.01"]):
+            result = get_amount()
+            # Assert
+            self.assertEqual(result, 500.01)
 
+    
+    def test_get_amount_non_numeric_input(self):
+        # Act
+        with patch("builtins.input", side_effect=["non_numeric_data"]):
+            with self.assertRaises(ValueError) as context:
+                get_amount()
+            # Assert
+            self.assertEqual(str(context.exception), "Invalid amount. Amount must be numeric.")
+
+    
+    def test_get_amount_zero_or_negative_amount(self):
+        # Act
+        with patch("builtins.input", side_effect=["0"]):
+            with self.assertRaises(ValueError) as context:
+                get_amount()
+            # Assert
+            self.assertEqual(str(context.exception), "Invalid amount. Please enter a positive number.")
 

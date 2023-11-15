@@ -15,7 +15,53 @@ ACCOUNTS = {
 
 VALID_TASKS = {"balance", "deposit", "exit"}
 
-## CODE REQUIRED FUNCTIONS STARTING HERE:
+def get_account():
+    """
+    prompt the user to input account number 
+    Returns:
+    int: the account number entered
+    Raises:
+    ValueError: whenever the account entered does not exist 
+    """
+    while True:    
+        try:
+            account_number = int(input("Please enter your account number: "))
+            if account_number in ACCOUNTS:
+                return account_number
+            else:
+                raise Exception("Account number entered does not exist.")
+        except ValueError:
+            raise ValueError("Account number must be a whole number.")
+
+def get_amount() -> float:
+    """
+    Prompt the user to enter an amount.
+
+    Returns:
+        float: The entered amount.
+
+    Raises:
+        ValueError: If the entered amount is not numeric or is zero/negative.
+    """
+    while True:
+        try:
+            # Prompt the user to enter the transaction amount.
+            amount_string = input("Enter the transaction amount: ")
+
+            # Attempt to parse the input as a float.
+            try:
+                amount = float(amount_string)
+            except ValueError:
+                raise ValueError("Invalid amount. Amount must be numeric.")
+
+            # Check if the amount is greater than zero.
+            if amount <= 0:
+                raise ValueError("Invalid amount. Please enter a positive number.")
+
+            return amount
+
+        except ValueError as error:
+            raise(error)
 
 
 

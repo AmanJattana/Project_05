@@ -63,7 +63,11 @@ def get_amount() -> float:
         except ValueError as error:
             raise(error)
 
-
+def get_balance(account: int) -> str:
+    if account not in ACCOUNTS:
+        raise Exception("Account number does not exist.")
+    balance = ACCOUNTS[account]["balance"]
+    return f'Your current balance for account {account} is ${balance:.2f}.'
 
 
 ## GIVEN CHATBOT FUNCTION

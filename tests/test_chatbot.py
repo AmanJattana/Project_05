@@ -6,7 +6,7 @@ Usage: prompts the user for various inputs and performs functions.
 """
 import unittest
 from unittest.mock import patch
-from src.chatbot import VALID_TASKS, ACCOUNTS,get_account
+from src.chatbot import VALID_TASKS, ACCOUNTS,get_account,get_amount,get_balance
 
 class ChatbotTests(unittest.TestCase):
     def test_get_account_valid_account(self):
@@ -57,3 +57,18 @@ class ChatbotTests(unittest.TestCase):
             # Assert
             self.assertEqual(str(context.exception), "Invalid amount. Please enter a positive number.")
 
+    def test_get_balance_valid_account(self):
+        # Arrange & Act
+        with patch("builtins.input", side_effect=["123456"]):
+            balance_info = get_balance(int(input("Enter account number: ")))
+            expected_output = 'Your current balance for account 123456 is $1000.00.'
+            # Assert
+            self.assertEqual(balance_info, expected_output)
+
+    def test_get_balance_account_not_in_accounts(self):
+        # Act
+        with patch("builtins.input", return_value="112233"):  # Input an account number not in ACCOUNTS
+            with self.assertRaises(Exception) as context:
+                get_balance(int(input("Enter account number: ")))
+        # Assert
+        self.assertEqual(str(context.exception), "Account number does not exist.")

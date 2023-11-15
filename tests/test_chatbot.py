@@ -7,5 +7,6 @@ Usage: prompts the user for various inputs and performs functions.
 import unittest
 from unittest.mock import patch
 
-
+class ChatbotTests(unittest.TestCase):
+    
 

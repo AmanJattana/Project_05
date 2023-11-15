@@ -72,3 +72,43 @@ class ChatbotTests(unittest.TestCase):
                 get_balance(int(input("Enter account number: ")))
         # Assert
         self.assertEqual(str(context.exception), "Account number does not exist.")
+    
+    def test_make_deposit_updated_balance(self):
+        # Arrange
+        account_number = 123456
+        ACCOUNTS[account_number]["balance"] = 1000.0
+        deposit_amount = 1500.01
+        # Act
+        make_deposit(account_number, deposit_amount)
+        # Assert
+        self.assertEqual(ACCOUNTS[account_number]["balance"], 2500.01)
+
+    def test_make_deposit_successful_message(self):
+        # Arrange
+        account_number = 123456
+        ACCOUNTS[account_number]["balance"] = 1000.0
+        # Act
+        result = make_deposit(account_number, 1500.01)
+        # Assert
+        self.assertEqual(result, "You have made a deposit of $1500.01 to account 123456.")
+
+
+    def test_make_deposit_account_not_exist(self):
+        # Arrange
+        account_number = 112233
+        deposit_amount = 1500.01
+        # Act
+        with self.assertRaises(Exception) as context:
+            make_deposit(account_number, deposit_amount)
+        # Assert
+        self.assertEqual(str(context.exception), "Account number does not exist.")
+
+    def test_make_deposit_negative_amount(self):
+        # Arrange
+        account_number = 123456
+        deposit_amount = -50.01
+        # Act
+        with self.assertRaises(ValueError) as context:
+            make_deposit(account_number, deposit_amount)
+        # Assert
+        self.assertEqual(str(context.exception), "Invalid Amount. Amount must be positive.")

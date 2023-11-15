@@ -69,6 +69,32 @@ def get_balance(account: int) -> str:
     balance = ACCOUNTS[account]["balance"]
     return f'Your current balance for account {account} is ${balance:.2f}.'
 
+def make_deposit(account: int, amount: float) -> str:
+    """
+    deposit the specified amount into the specified account
+
+    Args:
+        account (int):account number
+        amount (float):amount to deposit
+
+    Returns:
+        str: A message indicating a successful deposit.
+
+    Raises:
+        Exception: account is not listed in the ACCOUNTS library 
+        ValueError: amount is greater than zero 
+    """
+    if account not in ACCOUNTS:
+        raise Exception("Account number does not exist.")
+
+    if amount <= 0:
+        raise ValueError("Invalid Amount. Amount must be positive.")
+
+    ACCOUNTS[account]["balance"] += amount
+
+    return f"You have made a deposit of ${amount:.2f} to account {account}."
+
+
 
 ## GIVEN CHATBOT FUNCTION
 ## REQUIRES REVISION

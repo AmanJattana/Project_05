@@ -111,3 +111,52 @@ def user_selection() -> str:
 
 
 ## GIVEN CHATBOT FUNCTION
+def chatbot():
+    '''
+    The main program.  Uses the functionality of the functions:
+        get_account()
+        get_amount()
+        get_balance()
+        make_deposit()
+        user_selection()
+    '''
+    print("Welcome! I'm the PiXELL River Financial Chatbot!  Let's get chatting!")
+    keep_going = True
+    while keep_going:
+        try:
+            selection = user_selection()
+            if selection != "exit":
+                # Account number validation.
+                valid_account = False
+                while valid_account == False:
+                    try:
+                        account = get_account()
+                        valid_account = True
+                    except Exception as error_message:
+                        # Invalid account.
+                        print(error_message)
+                if selection == "balance":
+                    balance = get_balance(account)
+                    print(balance)
+                else:
+                    # Amount validation.
+                    valid_amount = False
+                    while valid_amount == False:
+                        try:
+                            amount = get_amount()
+                            valid_amount = True
+                        except Exception as e:
+                            # Invalid amount.
+                            print(e)
+                    deposit_result = make_deposit(account, amount)
+                    print(deposit_result)
+            else:
+                # User selected 'exit'
+                keep_going = False
+        except Exception as e:
+            # Invalid selection:
+            print(e)
+    print("Thank you for banking with PiXELL River Financial.")
+
+if __name__ == "__main__":
+    chatbot()

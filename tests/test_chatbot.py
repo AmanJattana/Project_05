@@ -112,3 +112,25 @@ class ChatbotTests(unittest.TestCase):
             make_deposit(account_number, deposit_amount)
         # Assert
         self.assertEqual(str(context.exception), "Invalid Amount. Amount must be positive.")
+
+    def test_user_selection_valid_lowercase(self):
+        # Act
+        with patch("builtins.input", return_value="balance"):
+            result = user_selection()
+            # Assert
+            self.assertEqual(result, "balance")
+
+    def test_user_selection_valid_mixed_case(self):
+        # Act
+        with patch("builtins.input", return_value="DePosiT"):
+            result = user_selection()
+            # Assert
+            self.assertEqual(result, "deposit")
+
+    def test_user_selection_invalid(self):
+        # Act
+        with patch("builtins.input", return_value="invalid_selection"):
+            with self.assertRaises(ValueError) as context:
+                user_selection()
+            # Assert
+            self.assertEqual(str(context.exception), "Invalid task. Please choose balance, deposit, or exit.")
